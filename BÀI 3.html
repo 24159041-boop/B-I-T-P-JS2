@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Baitap2.html</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            color: #000;
+        }
+        /* Bảng nút số phía trên */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(6, 40px);
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        .grid-container button {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            background-color: #f0f0f0;
+            border: 1px solid #999;
+            cursor: pointer;
+        }
+        .title-image {
+            font-style: italic;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        /* Khu vực nhập số */
+        .input-section {
+            margin-bottom: 20px;
+        }
+        .input-section label {
+            display: inline-block;
+            width: 80px;
+            font-size: 16px;
+        }
+        .input-section input {
+            width: 300px;
+            height: 50px;
+            border: 1px solid #3b62a4;
+            font-size: 18px;
+            text-align: center;
+        }
+        /* Nút Check */
+        .btn-check {
+            width: 150px;
+            height: 45px;
+            background-color: #f0f0f0;
+            border: 1px solid #7a93be;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        /* Khu vực hiển thị kết quả Parse */
+        .note-text {
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        /* Khu vực quản lý danh sách (abc, Select, Add, Remove) */
+        .row-actions {
+            display: flex;
+            gap: 90px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .input-abc {
+            width: 200px;
+            height: 45px;
+            border: 1px solid #3b62a4;
+            text-align: center;
+            font-size: 16px;
+        }
+        .select-box {
+            width: 180px;
+            height: 45px;
+            border: 1px solid #4a75ca;
+            background-color: #4a75ca;
+            color: white;
+            font-size: 15px;
+            border-radius: 5px;
+            padding-left: 10px;
+            cursor: pointer;
+        }
+        .row-bottom {
+            display: flex;
+            gap: 30px;
+            margin-left: 200px;
+        }
+        .btn-blue {
+            background-color: #4a75ca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            width: 130px;
+            height: 60px;
+        }
+        .btn-blue:hover, .select-box:hover {
+            background-color: #3b62a4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-container">
+        <button onclick="appendNum('1')">1</button>
+        <button onclick="appendNum('2')">2</button>
+        <button onclick="appendNum('3')">3</button>
+        <button onclick="appendNum('4')">4</button>
+        <button onclick="appendNum('5')">5</button>
+        <button onclick="setOperator('+')">+</button>
+        
+        <button onclick="appendNum('6')">6</button>
+        <button onclick="appendNum('7')">7</button>
+        <button onclick="appendNum('8')">8</button>
+        <button onclick="appendNum('9')">9</button>
+        <button onclick="appendNum('0')">0</button>
+        <button onclick="calculate()">=</button>
+    </div>
+
+    <div class="title-image">Hình 1. Baitap2.html</div>
+
+    <div class="input-section">
+        <label for="txtSo">Nhập số</label>
+        <input type="text" id="txtSo" value="">
+    </div>
+
+    <button class="btn-check" onclick="checkValue()">Check</button>
+
+    <div class="note-text">
+        <div id="parseIntResult"><strong>parseInt('11') &rarr; 11</strong></div>
+        <div id="parseFloatResult">parseFloat( )</div>
+    </div>
+
+    <div class="row-actions">
+        <input type="text" id="txtAbc" class="input-abc" value="abc">
+        
+        <select id="selectList" class="select-box">
+            <option value="">Select</option>
+            <option value="abc">abc</option>
+        </select>
+    </div>
+
+    <div class="row-bottom">
+        <button class="btn-blue" onclick="addItem()">Add</button>
+        <button class="btn-blue" onclick="removeItem()">Remove</button>
+    </div>
+
+    <script>
+        // --- PHẦN 1: XỬ LÝ PHÉP CỘNG VÀ NHẬP SỐ ---
+        let sFirst = "";
+        let sOp = "";
+        let isReset = false;
+
+        function appendNum(num) {
+            let txt = document.getElementById("txtSo");
+            if (isReset) {
+                txt.value = "";
+                isReset = false;
+            }
+            txt.value += num;
+        }
+
+        function setOperator(op) {
+            let txt = document.getElementById("txtSo");
+            if (txt.value === "") return;
+            sFirst = txt.value;
+            sOp = op;
+            txt.value = ""; // Xóa màn hình để nhập số thứ 2
+        }
+
+        function calculate() {
+            let txt = document.getElementById("txtSo");
+            if (sFirst === "" || txt.value === "") return;
+            let sSecond = txt.value;
+
+            // Sử dụng phép cộng số có 1 chữ số theo yêu cầu đề bài
+            let num1 = parseInt(sFirst);
+            let num2 = parseInt(sSecond);
+            let ketQua = 0;
+
+            if (sOp === "+") {
+                ketQua = num1 + num2;
+            }
+
+            txt.value = ketQua;
+            isReset = true; 
+            sFirst = "";
+            sOp = "";
+        }
+
+        // --- PHẦN 2: XỬ LÝ NÚT CHECK (ÉP KIỂU ĐÈ BÀI YÊU CẦU) ---
+        function checkValue() {
+            let val = document.getElementById("txtSo").value;
+            if (val.trim() === "") {
+                alert("Vui lòng nhập số trước khi Check!");
+                return;
+            }
+            
+            // Cập nhật text hiển thị trực quan ra màn hình giống hệt ảnh mẫu
+            document.getElementById("parseIntResult").innerHTML = `<strong>parseInt('${val}') &rarr; ${parseInt(val)}</strong>`;
+            document.getElementById("parseFloatResult").innerHTML = `parseFloat('${val}') &rarr; ${parseFloat(val)}`;
+        }
+
+        // --- PHẦN 3: XỬ LÝ QUẢN LÝ DANH SÁCH (ADD / REMOVE / SELECT) ---
+        function addItem() {
+            let textInput = document.getElementById("txtAbc").value.trim();
+            let selectBox = document.getElementById("selectList");
+
+            if (textInput === "") {
+                alert("Vui lòng nhập chữ vào ô trống trước khi Add!");
+                return;
+            }
+
+            // Tạo một option mới và thêm vào thẻ select
+            let option = document.createElement("option");
+            option.text = textInput;
+            option.value = textInput;
+            selectBox.add(option);
+            
+            // Xóa trống ô nhập sau khi thêm thành công
+            document.getElementById("txtAbc").value = "";
+        }
+
+        function removeItem() {
+            let selectBox = document.getElementById("selectList");
+            // Kiểm tra xem người dùng đã chọn mục nào để xóa chưa
+            if (selectBox.selectedIndex === -1 || selectBox.value === "") {
+                alert("Vui lòng chọn một mục trong danh sách Select để xóa!");
+                return;
+            }
+            // Xóa mục đang được chọn
+            selectBox.remove(selectBox.selectedIndex);
+        }
+    </script>
+</body>
+</html>

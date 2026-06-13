@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 2 - Tính y = ax + b</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 10px; }
+        label { display: inline-block; width: 120px; }
+    </style>
+</head>
+<body>
+    <h2>Giải phương trình / Tính giá trị $y = ax + b$</h2>
+    
+    <div class="form-group">
+        <label for="heSoA">Nhập hệ số a:</label>
+        <input type="number" id="heSoA" placeholder="Ví dụ: 2">
+    </div>
+    <div class="form-group">
+        <label for="bienX">Nhập giá trị x:</label>
+        <input type="number" id="bienX" placeholder="Ví dụ: 3">
+    </div>
+    <div class="form-group">
+        <label for="heSoB">Nhập hệ số b:</label>
+        <input type="number" id="heSoB" placeholder="Ví dụ: 5">
+    </div>
+    
+    <button onclick="tinhGiaTriY()">Tính kết quả y</button>
+    
+    <h3 id="ketQua">Kết quả y = </h3>
+
+    <script>
+        function tinhGiaTriY() {
+            let a = parseFloat(document.getElementById("heSoA").value);
+            let x = parseFloat(document.getElementById("bienX").value);
+            let b = parseFloat(document.getElementById("heSoB").value);
+            if (isNaN(a) || isNaN(x) || isNaN(b)) {
+                document.getElementById("ketQua").innerHTML = "Vui lòng nhập đầy đủ cả 3 số a, x và b!";
+                return;
+            }
+            let y = a * x + b;
+
+            document.getElementById("ketQua").innerHTML = "Kết quả: y = " + y;
+        }
+    </script>
+</body>
+</html>
